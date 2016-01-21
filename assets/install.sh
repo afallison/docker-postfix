@@ -27,6 +27,10 @@ tail -f /var/log/mail.log
 EOF
 chmod +x /opt/postfix.sh
 postconf -e myhostname=$maildomain
+postconf -e virtual_alias_domains=$maildomain
+postconf -e virtual_alias_maps=hash:/etc/postfix/virtual
+echo "@$maildomain $target" >> /etc/postfix/virtual
+postmap /etc/postfix/virtual
 postconf -F '*/*/chroot = n'
 
 ############
